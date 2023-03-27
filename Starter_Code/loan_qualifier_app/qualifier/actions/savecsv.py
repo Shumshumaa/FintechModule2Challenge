@@ -2,7 +2,8 @@
 like to save their results to a csv file to review the loans from 
 the banks they qualify from"""
 
-
+import sys
+import questionary
 import csv
 from pathlib import Path
 
@@ -14,12 +15,18 @@ def savecsv(qualifying_loans):
     """
     # @TODO: Complete the usability dialog for savings the CSV Files.
     # YOUR CODE HERE!
+    csvinput = questionary.text("Enter file path to save your file").ask()
+    csvinput = Path(csvinput)
+        
     
 
     header = ["Name of Qualifying Bank"]
 
-    csvpath = Path("List_of_Qualifying_Loans.csv")
-    with open(csvpath,"w") as csvfile:
+    csvinput = Path("List_of_Qualifying_Loans.csv")
+    if not csvinput.exists():
+        csvpath = Path("List_of_Qualifying_Loans.csv")
+        
+    with open(csvinput or csvpath,"w") as csvfile:
         csvwriter = csv.writer(csvfile, delimiter=",")
         csvwriter.writerow(header)
         for bank in qualifying_loans:
